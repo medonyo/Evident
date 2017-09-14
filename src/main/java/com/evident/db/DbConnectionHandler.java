@@ -25,7 +25,7 @@ public class DbConnectionHandler {
 	}
 
 	private void getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName("org.salite.JDBC");
+		Class.forName("org.sqlite.JDBC");
 		con = DriverManager.getConnection("jdbc:sqlite:SQLiteEvidentClients.db");
 		initialize();
 	}
@@ -36,13 +36,13 @@ public class DbConnectionHandler {
 			
 			Statement state = con.createStatement();
 			// check it there is any table.
-			ResultSet res = state.executeQuery("SELECT name FROM sqlite master WHERE type='table' AND name='user'");
+			ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='user'");
 			
 			if( !res.next() ){
 				System.out.println(" Building table with populated values");
 				// Create a table.
 				Statement stateCreate = con.createStatement();
-				stateCreate.execute("CREATE TABLE user (id, integer, "
+				stateCreate.execute("CREATE TABLE user(id integer, "
 						+ "fName varchamr(60)," + "lName varchar (60), "
 						+ "primary key(id));");
 				
