@@ -26,6 +26,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/yankie/workspace/EvidentApp/packages_external/sqlite-jdbc-3.20.0.jar"/>
+	<classpathentry kind="lib" path="packages_external/sqlite-jdbc-3.20.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

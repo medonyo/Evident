@@ -5,7 +5,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   
-  
   <properties>
   	<org.springframework.version>4.3.11.RELEASE</org.springframework.version>
   	<org.hibernate.version>5.2.10.Final</org.hibernate.version>
@@ -183,6 +182,13 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
+      
+      <plugin>
+  		<groupId>org.apache.tomcat.maven</groupId>
+  		<artifactId>tomcat7-maven-plugin</artifactId>
+  		<version>2.2</version>
+ 	  </plugin>
+      
     </plugins>
   </build>
 </project>

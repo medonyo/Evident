@@ -1,6 +1,9 @@
 package com.main.EvidentApp;
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
@@ -13,31 +16,39 @@ public class ClientData {
 	private int no_visits;
 	
 	private String mobile;
+	private String email;
 
 	@Id
 	public int getId() {
 		return id;
 	}
 
-	public int getName() {
-		return id;
+	public String getName() {
+		return name;
 	}
-	public int getSurname() {
-		return id;
+	public String getSurname() {
+		return surname;
 	}
 	public int getNoVisits() {
-		return id;
+		return no_visits;
 	}
-	public int getMobile() {
-		return id;
+	public String getMobile() {
+		return mobile;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
 	
-	ClientData(int id, String name, String surname, int no_visits, String mobile){
+	ClientData(int id, String name, String surname, int no_visits, String mobile, String email){
 		this.id=id;
 		this.name=name;
 		this.surname=surname;
 		this.no_visits=no_visits;
 		this.mobile=mobile;
+		this.email = email;
 	}
+
+
+
 }
