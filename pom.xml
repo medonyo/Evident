@@ -54,7 +54,7 @@
     <artifactId>spring-orm</artifactId>
     <version>${org.springframework.version}</version>
   </dependency>
- 
+
  
   <!-- Hibernate resources -->
   <dependency>
@@ -67,22 +67,27 @@
     <artifactId>hibernate-entitymanager</artifactId>
     <version>${org.hibernate.version}</version>
   </dependency>
-  <dependency>
+  
+  
+ <!--  <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-validator</artifactId>
     <version>6.0.2.Final</version>
   </dependency>
+   -->
+   
+   
  <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-commons-annotations -->
- <dependency>
+ <!-- <dependency>
     <groupId>org.hibernate.common</groupId>
     <artifactId>hibernate-commons-annotations</artifactId>
-    <version>4.0.2.Final</version>
- </dependency>
-  <dependency>
+    <version>5.1.0.Final</version>
+ </dependency>  -->
+ <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-annotations</artifactId>
     <version>3.5.6-Final</version>
-  </dependency>
+ </dependency>
   
   <!-- https://mvnrepository.com/artifact/taglibs/standard -->
   <dependency>
@@ -108,7 +113,13 @@
     <artifactId>commons-pool</artifactId>
     <version>1.6</version>
   </dependency>
-
+  <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+  <dependency>
+    <groupId>org.hsqldb</groupId>
+    <artifactId>hsqldb</artifactId>
+    <version>2.4.0</version>
+    <scope>test</scope>
+  </dependency>
   <!-- MySQL connector -->
   <dependency>
 	<groupId>mysql</groupId>
@@ -116,12 +127,12 @@
 	<version>6.0.6</version>
   </dependency>
   <!-- Log4j -->
-<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-<dependency>
+  <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+  <dependency>
     <groupId>log4j</groupId>
     <artifactId>log4j</artifactId>
     <version>1.2.17</version>
-</dependency>
+  </dependency>
 
 </dependencies>
    

@@ -1,24 +1,33 @@
 package com.main.EvidentApp;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ClientData")
+@Table(name = "CLIENTDATA")
 public class ClientData {
 
+	@Id
+	@Column
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column
 	private String name;
+	@Column
 	private String surname;
+	@Column
 	private int no_visits;
-	
+	@Column
 	private String mobile;
+	@Column
 	private String email;
 
-	@Id
 	public int getId() {
 		return id;
 	}
@@ -48,6 +57,8 @@ public class ClientData {
 		this.mobile=mobile;
 		this.email = email;
 	}
+	
+	ClientData(){}
 
 
 
