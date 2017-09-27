@@ -14,45 +14,13 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class App { 
-/*
-	public static void main(String[] args) {
-		
-		DbConnectionHandler handler = new DbConnectionHandler();
-		ResultSet res;
-		
-		
-		try {
-			res = handler.diplayUsers();
-			while(res.next()){
-				System.out.println(res.getString("fname") + " " + res.getString("lname"));
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		
-		
-
-
-	}
-	*/
-	
-	
 	
     private static SessionFactory sessionFactory = null;  
     private static ServiceRegistry serviceRegistry = null;  
+    private static Session session = null;
+    private static Transaction tx=null;
        
-    private static SessionFactory configureSessionFactory() throws HibernateException {  
-        /*Configuration cfg = new Configuration().configure();  
-        serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
-                cfg.getProperties()).build();
-        
-        sessionFactory = cfg.buildSessionFactory(serviceRegistry);           
-        return sessionFactory;*/
-    	
-    	
+    private static SessionFactory configureSessionFactory() throws HibernateException {  	
         try {
             // Create the SessionFactory from hibernate.cfg.xml
             StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().
@@ -66,40 +34,21 @@ public class App {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
-    	
-    	
     }
      
-    public static void main(String[] args) {
-        // Configure the session factory
-        configureSessionFactory();
-         
-        Session session = null;
-        Transaction tx=null;
-         
-        try {
-            session = sessionFactory.openSession();
-            tx = session.beginTransaction();
-             
-            // Creating Contact entity that will be save to the sqlite database
-          /*  ClientData client1 = new ClientData(1, "Name 3", "Surname3",100,"555444333","sharing3@email.com");
-            ClientData client2 = new ClientData(2, "Name 44", "Surname44",144,"333222111","telling44@email.com");
-             
+    private static void saveClientData(ClientData data){
+    	// TODO:
+    	// Do other actions before saving
+    	
+    	try {
+    		session = sessionFactory.openSession();
+    		tx = session.beginTransaction();
             // Saving to the database
-            session.save(client1);
-            session.save(client2);
-             
+            session.save(data);
             // Committing the change in the database.
             session.flush();
-            tx.commit();*/
-             
-            // Fetching saved data
-            List<ClientData> clientsLinst = session.createQuery("from ClientData").list();
-             
-            for (ClientData client : clientsLinst) {
-                System.out.println("Id: " + client.getId() + " | Name:"  + client.getName() + " | Email:" + client.getEmail());
-            }
-             
+            tx.commit();
+    		
         } catch (Exception ex) {
             ex.printStackTrace();
              
@@ -111,6 +60,47 @@ public class App {
                 session.close();
             }
         }
+    }
+    
+    private static void displayAll(){
+        try {
+            session = sessionFactory.openSession();
+             
+            // Fetching saved data
+            List<ClientData> clientsLinst = session.createQuery("from ClientData").list();
+             
+            for (ClientData client : clientsLinst) {
+                System.out.println("Id: " + client.getId() + " | Name:"  + client.getName() + " | Email:" + client.getEmail());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+             
+            // Rolling back the changes to make the data consistent in case of any failure 
+            // in between multiple database write operations.
+            tx.rollback();
+        } finally{
+            if(session != null) {
+                session.close();
+            }
+        } 
+    }
+    
+    public static void main(String[] args) {
+        // Configure the session factory
+        configureSessionFactory();
+           
+		// Creating Contact entity that will be save to the sqlite database
+		ClientData client1 = new ClientData(1, "Name 7", "Surname3",100,"555444333","sharing3@email.com");
+		ClientData client2 = new ClientData(2, "Name 884", "Surname44",144,"333222111","telling44@email.com");
+		 
+		
+		saveClientData(client1);
+		saveClientData(client2);
+		
+		
+		displayAll();
+            
+
     }
 
 }
