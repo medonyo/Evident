@@ -1,6 +1,13 @@
 package com.main.EvidentApp;
 
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,94 +20,39 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class App { 
+import com.evident.db.DbConnectionHandler;
+
+//@WebServlet(urlPatterns = "/client_view")
+public class App extends HttpServlet { 
 	
-    private static SessionFactory sessionFactory = null;  
-    private static ServiceRegistry serviceRegistry = null;  
-    private static Session session = null;
-    private static Transaction tx=null;
-       
-    private static SessionFactory configureSessionFactory() throws HibernateException {  	
-        try {
-            // Create the SessionFactory from hibernate.cfg.xml
-            StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().
-            		configure("hibernate.cfg.xml").build();
-            Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
-            sessionFactory = metadata.getSessionFactoryBuilder().build();
-            return sessionFactory;
-        } 
-        catch (Throwable ex) {
-            // Make sure you log the exception, as it might be swallowed
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-     
-    private static void saveClientData(ClientData data){
-    	// TODO:
-    	// Do other actions before saving
-    	
-    	try {
-    		session = sessionFactory.openSession();
-    		tx = session.beginTransaction();
-            // Saving to the database
-            session.save(data);
-            // Committing the change in the database.
-            session.flush();
-            tx.commit();
-    		
-        } catch (Exception ex) {
-            ex.printStackTrace();
-             
-            // Rolling back the changes to make the data consistent in case of any failure 
-            // in between multiple database write operations.
-            tx.rollback();
-        } finally{
-            if(session != null) {
-                session.close();
-            }
-        }
-    }
-    
-    private static void displayAll(){
-        try {
-            session = sessionFactory.openSession();
-             
-            // Fetching saved data
-            List<ClientData> clientsLinst = session.createQuery("from ClientData").list();
-             
-            for (ClientData client : clientsLinst) {
-                System.out.println("Id: " + client.getId() + " | Name:"  + client.getName() + " | Email:" + client.getEmail());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-             
-            // Rolling back the changes to make the data consistent in case of any failure 
-            // in between multiple database write operations.
-            tx.rollback();
-        } finally{
-            if(session != null) {
-                session.close();
-            }
-        } 
-    }
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//resp.getWriter().println("TESTING_TESTING___......");
+		//resp.getWriter().println(new Date(0));
+		req.setAttribute("client_name", "client_got_fro_DB");
+		req.getRequestDispatcher("/WEB-INF/views/client_view.jsp").forward(req, resp);
+	}
+/*	
+	private static DbConnectionHandler connection;
     
     public static void main(String[] args) {
         // Configure the session factory
-        configureSessionFactory();
+    	connection.configureSessionFactory();
            
 		// Creating Contact entity that will be save to the sqlite database
 		ClientData client1 = new ClientData(1, "Name 7", "Surname3",100,"555444333","sharing3@email.com");
 		ClientData client2 = new ClientData(2, "Name 884", "Surname44",144,"333222111","telling44@email.com");
 		 
 		
-		saveClientData(client1);
-		saveClientData(client2);
+		connection.saveClientData(client1);
+		connection.saveClientData(client2);
 		
 		
-		displayAll();
+		connection.displayAll();
             
 
     }
-
+*/
 }
