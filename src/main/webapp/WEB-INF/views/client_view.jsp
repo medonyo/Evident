@@ -9,6 +9,6 @@
 <body>
 JSP first view of the client.
 <BR/> And will be other.
-<BR/> Client is currently: ${client_name} 
+<!--  <BR/> Client is currently: ${client_name} --> 
 </body>
 </html>

@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,19 +23,26 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import com.evident.db.DbConnectionHandler;
+//import com.evident.db.DbConnectionHandler;
 
-//@WebServlet(urlPatterns = "/client_view")
 public class App extends HttpServlet { 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//resp.getWriter().println("TESTING_TESTING___......");
 		//resp.getWriter().println(new Date(0));
-		req.setAttribute("client_name", "client_got_fro_DB");
-		req.getRequestDispatcher("/WEB-INF/views/client_view.jsp").forward(req, resp);
+		req.setAttribute("client_name", "client_got_from_DB");
+		
+		ServletContext context = getServletContext();		
+		RequestDispatcher rd = context.getRequestDispatcher("/WEB-INF/views/client_view.jsp");
+		rd.forward(req, resp);
 	}
 /*	
 	private static DbConnectionHandler connection;
