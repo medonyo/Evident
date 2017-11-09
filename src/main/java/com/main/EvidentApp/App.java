@@ -1,33 +1,53 @@
 package com.main.EvidentApp;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
 
-import com.evident.db.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class App { 
+import com.evident.db.DbConnectionHandler;
 
-	public static void main(String[] args) {
-		
-		DbConnectionHandler handler = new DbConnectionHandler();
-		ResultSet res;
-		
-		
-		try {
-			res = handler.diplayUsers();
-			while(res.next()){
-				System.out.println(res.getString("fname") + " " + res.getString("lname"));
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//import com.evident.db.DbConnectionHandler;
 
-		
-		
+public class App extends HttpServlet {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+            IOException {
 
+        DbConnectionHandler connection = null;
+        req.setAttribute("client_name", connection.getUser());
+
+        ServletContext context = getServletContext();
+        RequestDispatcher rd = context.getRequestDispatcher("/WEB-INF/views/client_view.jsp");
+        rd.forward(req, resp);
+    }
+
+    private static void ExecuteTransaction() {
+
+        DbConnectionHandler connection = null;
+
+        // Configure the session factory
+        connection.configureSessionFactory();
+
+        // Creating Contact entity that will be save to the sqlite database
+        ClientData client1 = new ClientData(1, "Name 7", "Surname3", 100, "555444333",
+                "sharing3@email.com");
+        ClientData client2 = new ClientData(2, "Name 884", "Surname44", 144, "333222111",
+                "telling44@email.com");
+
+        connection.saveClientData(client1);
+        connection.saveClientData(client2);
+
+        connection.displayAll();
+    }
 }

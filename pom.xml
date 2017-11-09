@@ -1,14 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>EvidentApp</groupId>
-  <artifactId>EvidentApp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <groupId>EvidentA</groupId>
+  <artifactId>Evident</artifactId>
+  <version>0.0.1</version>
   <packaging>war</packaging>
   
   
   <properties>
   	<org.springframework.version>4.3.11.RELEASE</org.springframework.version>
   	<org.hibernate.version>5.2.10.Final</org.hibernate.version>
+  	<deploy-path>deploy_dir</deploy-path>
   </properties>
   
   
@@ -54,7 +55,7 @@
     <artifactId>spring-orm</artifactId>
     <version>${org.springframework.version}</version>
   </dependency>
- 
+
  
   <!-- Hibernate resources -->
   <dependency>
@@ -67,22 +68,27 @@
     <artifactId>hibernate-entitymanager</artifactId>
     <version>${org.hibernate.version}</version>
   </dependency>
-  <dependency>
+  
+  
+ <!--  <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-validator</artifactId>
     <version>6.0.2.Final</version>
   </dependency>
+   -->
+   
+   
  <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-commons-annotations -->
- <dependency>
+ <!-- <dependency>
     <groupId>org.hibernate.common</groupId>
     <artifactId>hibernate-commons-annotations</artifactId>
-    <version>4.0.2.Final</version>
- </dependency>
-  <dependency>
+    <version>5.1.0.Final</version>
+ </dependency>  -->
+ <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-annotations</artifactId>
     <version>3.5.6-Final</version>
-  </dependency>
+ </dependency>
   
   <!-- https://mvnrepository.com/artifact/taglibs/standard -->
   <dependency>
@@ -96,6 +102,13 @@
     <artifactId>jstl</artifactId>
     <version>1.2</version>
   </dependency>
+  <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+  <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.0</version>
+    <scope>provided</scope>
+  </dependency>
   <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
   <dependency>
     <groupId>commons-dbcp</groupId>
@@ -108,7 +121,13 @@
     <artifactId>commons-pool</artifactId>
     <version>1.6</version>
   </dependency>
-
+  <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+  <dependency>
+    <groupId>org.hsqldb</groupId>
+    <artifactId>hsqldb</artifactId>
+    <version>2.4.0</version>
+    <scope>test</scope>
+  </dependency>
   <!-- MySQL connector -->
   <dependency>
 	<groupId>mysql</groupId>
@@ -116,11 +135,26 @@
 	<version>6.0.6</version>
   </dependency>
   <!-- Log4j -->
-<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-<dependency>
+  <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+  <dependency>
     <groupId>log4j</groupId>
     <artifactId>log4j</artifactId>
     <version>1.2.17</version>
+  </dependency>
+
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-digester3</artifactId>
+  <version>3.2</version>
+  <classifier>with-deps</classifier>
+</dependency>
+
+
+<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+<dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-resources-plugin</artifactId>
+    <version>2.7</version>
 </dependency>
 
 </dependencies>
@@ -158,6 +192,76 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
+ 
+      
+
+      
+      
+      
+      
+      <plugin>
+      	<groupId>org.apache.tomcat.maven</groupId>
+      	<artifactId>tomcat7-maven-plugin</artifactId>
+      	<version>2.2</version>
+      	
+      	<executions>
+        <execution>
+            <id>tomcat-run</id>
+            <goals>
+                <goal>exec-war-only</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration> 
+                <path>/Evident-${project.version}</path>
+                <enableNaming>false</enableNaming>
+                <finalName>Evident-${project.version}.jar</finalName>
+                <charset>utf-8</charset>                
+            </configuration>
+        </execution>
+    	</executions>
+      </plugin>
+      
+
+
+
+
+      
+      <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+                <execution>
+                    <id>copy-resource-one</id>
+                    <phase>install</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+
+                    <configuration>
+                    
+                                <outputDirectory>src/main/webapp/META-INF</outputDirectory>
+							<encoding>UTF-8</encoding>
+							<resources>
+								<resource>
+									<directory>../Servers/Tomcat v7.0 Server at localhost-config</directory>
+									<includes>
+										<include>context.xml</include>
+										<include>web.xml</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+            
+                    
+                    </configuration>
+                </execution>
+           </executions>
+        </plugin>
+      
+      
+      
+      
+      
     </plugins>
   </build>
 </project>
